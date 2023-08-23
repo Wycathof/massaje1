@@ -61,10 +61,13 @@ def cancel_message(message):
 
 @bot.message_handler(commands=['clients'])
 def send_clients_list(message):
-    clients_list = 'Список записавшихся клиентов:\n'
-    for chat_id, data in clients.items():
-        clients_list += f'{chat_id}: {data["date"]} {data["time"]}\n'
-    bot.send_message(message.chat.id, clients_list)
+    if message.from_user.id == ADMIN_CHAT_ID:
+        clients_list = 'Список записавшихся клиентов:\n'
+        for chat_id, data in clients.items():
+            clients_list += f'{chat_id}: {data["date"]} {data["time"]}\n'
+        bot.send_message(message.chat.id, clients_list)
+    else:
+        bot.send_message(message.chat.id, "У тебя нет доступа. К сожалению и не будет, потому что админская команда.")
 
 
 def create_calendar():
